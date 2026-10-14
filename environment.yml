@@ -1,0 +1,8 @@
+name: nutriproteomics-nf
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::gcta=1.94.1
+  - bioconda::plink=1.90
+  - conda-forge::r-base>=4.1

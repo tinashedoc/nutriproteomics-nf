@@ -1,0 +1,29 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: nf
+          create-args: >-
+            -c conda-forge -c bioconda
+            nextflow gcta=1.94.1 plink=1.90 r-base openjdk=17
+      - name: Run test profile
+        run: nextflow run . -profile test -ansi-log false
+      - name: Check each causal SNP is the top hit
+        run: |
+          for pair in plant:rs00100 animal:rs00800 vitc:rs01500 retinol:rs02000; do
+            top=$(awk 'NR == 2 {print $2}' "results_test/summary/${pair%%:*}_top_hits.tsv")
+            echo "${pair%%:*}: top hit $top"
+            [[ "$top" == "${pair##*:}" ]]
+          done
