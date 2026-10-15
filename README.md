@@ -23,7 +23,7 @@ nextflow run tinashedoc/nutriproteomics-nf -profile test,conda    # simulated te
 
 nextflow run tinashedoc/nutriproteomics-nf -profile conda \
     --input  scores_and_covariates.tsv \
-    --bfile  /dataE/AWIGenGWAS/shared/imputed_data_plink/all_imputed_map_qc \
+    --bfile  /dataE/testbefile \
     --outdir results
 ```
 
